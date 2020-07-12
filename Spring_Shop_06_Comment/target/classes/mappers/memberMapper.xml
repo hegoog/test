@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+  <sql id="base">
+     from tbl_member where email=#{email}
+  </sql>
+  <sql id="search">
+  <if test="type !=null">
+    <trim prefix="and (" suffix=") "> <!--trim안에 들은것들에 prefix 접두사 suffix 접미사  붙임 -->
+      <choose>
+      <when test="type=='e'.toString()">
+        email like '%'||#{keyword}||'%'   <!-- || concat(+) %+keword+% -->
+      </when>
+      <when test="type=='en'.toString()">
+        email like '%'||#{keyword}||'%' or  
+        nickname like '%'||#{keyword}||'%'
+      </when>
+      <when test="type=='n'.toString()">
+        nickname like '%'||#{keyword}||'%'  
+      </when>
+      </choose>
+    </trim> 
+  </if>
+</sql>
+
+	<insert id="join" parameterType="MemberVO">
+		insert into tbl_member (email,pwd,nickname)
+		values(#{email},#{pwd},#{nickname})
+	</insert>
+	
+	<select id="check" parameterType="java.lang.String" resultType="java.lang.Integer">
+	 select count(email) <include refid="base"/>
+	</select>
+	
+	<select id="login" parameterType="MemberVO"
+		resultType="MemberVO">
+		select * <include refid="base"/> and pwd=#{pwd}
+	</select>
+	
+	<select id="mlist" parameterType="Criterion" resultType="MemberVO">
+	<![CDATA[
+		   SELECT email,nickname,REGD8 
+    FROM (SELECT 
+    rowNum AS rn,email,nickname,REGD8 
+    FROM TBL_MEMBER
+    WHERE email IS NOT null
+ ]]>
+ <include refid="search"/>
+   <![CDATA[    
+    and  rownum <=#{pageNum}*#{amount}) 
+    WHERE rn > (#{pageNum}-1)*#{amount}
+		]]>
+	</select>
+	
+	<select id="mInfo" parameterType="java.lang.String"  resultType="MemberVO">
+		select *  <include refid="base"/>
+	</select>
+  <update id="modify" parameterType="MemberVO">
+    update tbl_member set pwd = #{pwd}, nickname = #{nickname} where email=#{email}
+  </update>
+  <delete id="resign" parameterType="java.lang.String">
+    delete <include refid="base"/>
+  </delete>
+
+  <select id="total" parameterType="Criterion" resultType="java.lang.Integer">
+  <![CDATA[
+    select count(email) from tbl_member WHERE email IS NOT null
+    ]]><include refid="search"/> 
+  </select>
+</mapper>

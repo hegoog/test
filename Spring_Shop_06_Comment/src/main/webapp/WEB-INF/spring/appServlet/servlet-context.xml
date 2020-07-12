@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>    <!-- 리퀘스트요청을 처리하는 곳 -->
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+  <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+  
+  <!-- Enables the Spring MVC @Controller programming model -->
+  <annotation-driven />
+
+  <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+  <resources mapping="/resources/**" location="/resources/" />  <!--/resources 다음에오는걸 전부 매핑시켜줌  -->
+  <resources location="file:///C:/_web/_spring/upimg/" mapping="/images/**"/>  <!-- /images/ 하면 location 경로에서 땡겨오겟다  -->
+
+  <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+  <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> <!--리퀘스트를 재해석해서 경로를 맞춰줌  -->
+    <beans:property name="prefix" value="/WEB-INF/views/" />
+    <beans:property name="suffix" value=".jsp" />
+  </beans:bean>
+  <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+     <beans:property name="maxUploadSize" value="5242880"></beans:property> 
+  </beans:bean>
+  
+  <!--내가 만든 컨트롤러 존재를 spring이 알도록 등록  -->
+  <context:component-scan base-package="com.myweb.ctrl" /> 
+  <context:component-scan base-package="com.myweb.util"/>
+  
+  
+</beans:beans>
+
+

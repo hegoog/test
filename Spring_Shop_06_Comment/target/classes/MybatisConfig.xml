@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<typeAliases>
+  <package name="com.myweb.domain"/> <!--typeAlias에 들어오는 경로를 이 패키지로 부터 시작한다  -->
+<!--   <typeAlias type="com.myweb.domain.member.MemberVo" alias="mvo"/>--> <!-- 개별적 접근 -->
+</typeAliases>
+</configuration>

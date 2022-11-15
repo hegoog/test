@@ -14,7 +14,7 @@
 		<org.springframework.security-version>4.2.11.RELEASE</org.springframework.security-version>
 		<org.log4j-version>2.11.2</org.log4j-version>
 		<org.slf4j-version>1.7.25</org.slf4j-version>
-		<fasterxml.jackson-version>2.10.0</fasterxml.jackson-version>
+		<fasterxml.jackson-version>2.12.7.1</fasterxml.jackson-version>
 	</properties>
 	<dependencies> <!-- 라이브러리 등록하는 방  -->
 		<!-- Spring -->
